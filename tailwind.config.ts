@@ -52,6 +52,13 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				cta: {
+					DEFAULT: 'hsl(var(--cta))',
+					foreground: 'hsl(var(--cta-foreground))'
+				},
+				'neural-primary': 'hsl(var(--neural-primary))',
+				'neural-secondary': 'hsl(var(--neural-secondary))',
+				'neural-bg': 'hsl(var(--neural-bg))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
