@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import NeuralNetwork from '@/components/NeuralNetwork';
+import ProductCarousel from '@/components/ProductCarousel';
+import QuickQuiz from '@/components/QuickQuiz';
+import { mockProducts } from '@/data/mockProducts';
 
 const Index = () => {
+  const [showQuiz, setShowQuiz] = useState(false);
+
+  const topModels = mockProducts.filter(p => p.category === 'model' && p.featured);
+  const topAgents = mockProducts.filter(p => p.category === 'agent').slice(0, 4);
+  const topAutomations = mockProducts.filter(p => p.category === 'automation');
+
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Neural Network Background */}
@@ -32,6 +42,7 @@ const Index = () => {
             <Button 
               size="lg" 
               className="bg-cta hover:bg-cta/90 text-cta-foreground font-semibold text-lg px-8 py-4 cta-glow"
+              onClick={() => document.getElementById('featured-products')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Browse AI Models
             </Button>
@@ -39,6 +50,7 @@ const Index = () => {
               variant="outline" 
               size="lg"
               className="border-accent text-accent hover:bg-accent hover:text-accent-foreground font-semibold text-lg px-8 py-4"
+              onClick={() => setShowQuiz(true)}
             >
               Take the Quiz
             </Button>
@@ -59,6 +71,60 @@ const Index = () => {
               <div className="text-muted-foreground">Setup Time</div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Quiz Section */}
+      {showQuiz && (
+        <section className="relative z-10 py-16 px-4">
+          <div className="max-w-6xl mx-auto">
+            <QuickQuiz />
+            <div className="text-center mt-8">
+              <Button variant="ghost" onClick={() => setShowQuiz(false)}>
+                Skip for now
+              </Button>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Featured Products Section */}
+      <section id="featured-products" className="relative z-10 py-16 px-4 bg-secondary/20">
+        <div className="max-w-7xl mx-auto">
+          <Tabs defaultValue="models" className="w-full">
+            <div className="text-center mb-8">
+              <h2 className="text-4xl font-bold mb-4">Featured AI Solutions</h2>
+              <p className="text-xl text-muted-foreground mb-8">
+                Handpicked AI tools that deliver real results
+              </p>
+              <TabsList className="grid w-full max-w-md mx-auto grid-cols-3">
+                <TabsTrigger value="models">Models</TabsTrigger>
+                <TabsTrigger value="agents">Agents</TabsTrigger>
+                <TabsTrigger value="automations">Automations</TabsTrigger>
+              </TabsList>
+            </div>
+            
+            <TabsContent value="models" className="mt-8">
+              <ProductCarousel 
+                title="Top AI Models" 
+                products={topModels}
+              />
+            </TabsContent>
+            
+            <TabsContent value="agents" className="mt-8">
+              <ProductCarousel 
+                title="Smart AI Agents" 
+                products={topAgents}
+              />
+            </TabsContent>
+            
+            <TabsContent value="automations" className="mt-8">
+              <ProductCarousel 
+                title="Powerful Automations" 
+                products={topAutomations}
+              />
+            </TabsContent>
+          </Tabs>
         </div>
       </section>
 
